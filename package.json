@@ -1,0 +1,19 @@
+{
+  "name": "bamazon",
+  "version": "1.0.0",
+  "description": "The application will take in orders from customers and deplete from the store's total supplies.",
+  "main": "bamazonCustomer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wpierscionek/bamazon.git"
+  },
+  "author": "wp",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wpierscionek/bamazon/issues"
+  },
+  "homepage": "https://github.com/wpierscionek/bamazon#readme"
+}
