@@ -1,4 +1,12 @@
+//====================
+//Global
+//====================
 var mysql = require('mysql');
+var prompt = require('prompt');
+
+//====================
+//Connection
+//====================
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -15,9 +23,36 @@ connection.connect(function(err) {
 
     console.log('connected as id ' + connection.threadId);
 });
-connection.query("SELECT * FROM bamazon.products", function(err, rows) {
+
+//====================
+//View All Products
+//====================
+connection.query("SELECT ItemId, ProductName, Price FROM products", function(err, inStock) {
     if (err) {
         throw (err);
     }
-    console.log(rows);
+    console.log(inStock);
 });
+
+//====================
+//Customer Input
+//====================
+var askCustomer = function() {
+    prompt.start();
+    console.log("Welcome to Bamazon");
+    console.log("We offer great products!");
+    console.log("What would you like to buy?!")
+    prompt.get(["ItemId", "Quantity"], function(err, result) {
+        if (err) {
+            throw (err);
+        } else {
+            connection.query("Select * From products", function(err, result) {
+                if (err) {
+                    throw (err);
+                }
+                console.log(result);
+            })
+        }
+    })
+}
+askCustomer();

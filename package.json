@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/wpierscionek/bamazon#readme",
   "dependencies": {
-    "mysql": "^2.10.2"
+    "mysql": "^2.10.2",
+    "prompt": "^1.0.0"
   }
 }
