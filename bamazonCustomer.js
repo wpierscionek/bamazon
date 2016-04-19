@@ -1,17 +1,23 @@
-var mysql      = require('mysql');
+var mysql = require('mysql');
 var connection = mysql.createConnection({
- host     : 'localhost',
- user     : 'root',
- password : 'password',
- database : 'bamazon'
+    host: 'localhost',
+    user: 'root',
+    password: 'password',
+    database: 'bamazon'
 
 });
 
 connection.connect(function(err) {
- if (err) {
-   console.error('error connecting: ' + err.stack);
-   return;
- }
+    if (err) {
+        console.error('error connecting: ' + err.stack);
+        return;
+    }
 
- console.log('connected as id ' + connection.threadId);
+    console.log('connected as id ' + connection.threadId);
+});
+connection.query("SELECT * FROM bamazon.products", function(err, rows) {
+    if (err) {
+        throw (err);
+    }
+    console.log(rows);
 });
