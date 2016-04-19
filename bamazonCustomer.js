@@ -1,21 +1,17 @@
-var mysql = require('mysql');
+var mysql      = require('mysql');
+var connection = mysql.createConnection({
+ host     : 'localhost',
+ user     : 'root',
+ password : 'password',
+ database : 'fun_time'
 
-function (, , ) {
-    var myLat = 0;
-    var myLong = 0;
-    var res = [];
+});
 
-    var con = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'password',
-        database: 'doctors'
+connection.connect(function(err) {
+ if (err) {
+   console.error('error connecting: ' + err.stack);
+   return;
+ }
 
-    });
-
- con.connect(function (err) {
-       if (err) {
-           console.log(err);
-       }
-       console.log('connected');
-   });
+ console.log('connected as id ' + connection.threadId);
+});
