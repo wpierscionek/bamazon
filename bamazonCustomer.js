@@ -33,8 +33,8 @@ connection.query("SELECT ItemId, ProductName, Price FROM products", function(err
     }
     var inventory = inStock;
     for (i = 0; i < inventory.length; i++) {
-        console.log("________________________________________________")
         console.log("Currently in stock " + inventory[i].ProductName + " ItemId #" + inventory[i].ItemId + " $" + inventory[i].Price);
+        console.log("________________________________________________")
 
     }
 });
@@ -67,7 +67,20 @@ var askCustomer = function() {
                         console.log("Sorry, we only have in stock " + order[i].StockQuantity + " " + result.ProductName + " 's'");
                     }
                 }
+                connection.query("UPDATE products SET StockQuantity = StockQuantity - " + result.Quantity + " WHERE ProductName ='" + result.ProductName + "'", function(err, newStock) {
+                    if (err) {
+                        throw (err);
+                    }
+                    connection.query("SELECT * FROM products", function(err, update) {
+                        var newInventory = update;
+                        for (i = 0; i < newInventory.length; i++) {
+                            console.log("Our Current Inventory " + newInventory[i].ProductName + " " +  " Quantity " + newInventory[i].StockQuantity);
+                            console.log("________________________________________________")
+                        }
 
+                    })
+
+                })
             })
         }
     })
