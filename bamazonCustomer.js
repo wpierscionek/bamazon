@@ -20,8 +20,7 @@ connection.connect(function(err) {
         console.error('error connecting: ' + err.stack);
         return;
     }
-
-    // console.log('connected as id ' + connection.threadId);
+    console.log(' ');
 });
 
 //====================
@@ -59,30 +58,41 @@ var askCustomer = function() {
                 for (i = 0; i < order.length; i++) {
 
                     if (order[i].ProductName === result.ProductName && result.Quantity <= order[i].StockQuantity) {
+
                         console.log("You Purchased: " + order[i].ProductName);
                         console.log("Quantity: " + result.Quantity);
                         console.log("You Pay: $" + (result.Quantity * order[i].Price));
+                        console.log("Thank you for shopping!");
+
+                        //====================
+                        //Update
+                        //====================
+                        var update = function() {
+                            connection.query("UPDATE products SET StockQuantity = StockQuantity - " + result.Quantity + " WHERE ProductName ='" + result.ProductName + "'", function(err, newStock) {
+                                if (err) {
+                                    throw (err);
+                                }
+                                connection.query("SELECT * FROM products", function(err, update) {
+                                    var newInventory = update;
+                                    for (i = 0; i < newInventory.length; i++) {
+                                        console.log("Our Current Inventory " + newInventory[i].ProductName + " " + " Quantity " + newInventory[i].StockQuantity);
+                                        console.log("________________________________________________")
+                                    }
+
+                                })
+
+                            })
+                        }
+                        update();
 
                     } else if (order[i].ProductName === result.ProductName && result.Quantity > order[i].StockQuantity) {
                         console.log("Sorry, we only have in stock " + order[i].StockQuantity + " " + result.ProductName + " 's'");
+                        process.exit();
                     }
                 }
-                connection.query("UPDATE products SET StockQuantity = StockQuantity - " + result.Quantity + " WHERE ProductName ='" + result.ProductName + "'", function(err, newStock) {
-                    if (err) {
-                        throw (err);
-                    }
-                    connection.query("SELECT * FROM products", function(err, update) {
-                        var newInventory = update;
-                        for (i = 0; i < newInventory.length; i++) {
-                            console.log("Our Current Inventory " + newInventory[i].ProductName + " " + " Quantity " + newInventory[i].StockQuantity);
-                            console.log("________________________________________________")
-                        }
-
-                    })
-
-                })
             })
         }
     })
 }
+
 askCustomer();
