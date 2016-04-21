@@ -21,7 +21,7 @@ connection.connect(function(err) {
         return;
     }
 
-    console.log('connected as id ' + connection.threadId);
+    // console.log('connected as id ' + connection.threadId);
 });
 
 //====================
@@ -31,26 +31,43 @@ connection.query("SELECT ItemId, ProductName, Price FROM products", function(err
     if (err) {
         throw (err);
     }
-    console.log(inStock);
+    var inventory = inStock;
+    for (i = 0; i < inventory.length; i++) {
+        console.log("________________________________________________")
+        console.log("Currently in stock " + inventory[i].ProductName + " ItemId #" + inventory[i].ItemId + " $" + inventory[i].Price);
+
+    }
 });
 
 //====================
 //Customer Input
 //====================
 var askCustomer = function() {
-    prompt.start();
     console.log("Welcome to Bamazon");
     console.log("We offer great products!");
     console.log("What would you like to buy?!")
-    prompt.get(["ItemId", "Quantity"], function(err, result) {
+    prompt.start();
+    prompt.get(["ProductName", "Quantity"], function(err, result) {
         if (err) {
             throw (err);
         } else {
-            connection.query("Select * From products", function(err, result) {
+            connection.query("SELECT * From products", function(err, order) {
                 if (err) {
                     throw (err);
                 }
-                console.log(result);
+
+                for (i = 0; i < order.length; i++) {
+
+                    if (order[i].ProductName === result.ProductName && result.Quantity <= order[i].StockQuantity) {
+                        console.log("You Purchased: " + order[i].ProductName);
+                        console.log("Quantity: " + result.Quantity);
+                        console.log("You Pay: $" + (result.Quantity * order[i].Price));
+
+                    } else if (order[i].ProductName === result.ProductName && result.Quantity > order[i].StockQuantity) {
+                        console.log("Sorry, we only have in stock " + order[i].StockQuantity + " " + result.ProductName + " 's'");
+                    }
+                }
+
             })
         }
     })
