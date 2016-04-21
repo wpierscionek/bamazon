@@ -74,7 +74,7 @@ var askCustomer = function() {
                     connection.query("SELECT * FROM products", function(err, update) {
                         var newInventory = update;
                         for (i = 0; i < newInventory.length; i++) {
-                            console.log("Our Current Inventory " + newInventory[i].ProductName + " " +  " Quantity " + newInventory[i].StockQuantity);
+                            console.log("Our Current Inventory " + newInventory[i].ProductName + " " + " Quantity " + newInventory[i].StockQuantity);
                             console.log("________________________________________________")
                         }
 
