@@ -4,4 +4,4 @@ The application will take in orders from customers and deplete from the store's 
 ![ScreenShot](img/2.png)
 ![ScreenShot](img/3.png)
 ![ScreenShot](img/4.png)
-![ScreenShot](img/5.png)
+![ScreenShot](img/6.png)
